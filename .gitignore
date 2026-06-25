@@ -10,6 +10,7 @@ chroma_db/
 
 # Python
 .venv/
+uv.lock
 __pycache__/
 *.pyc
 *.pyo

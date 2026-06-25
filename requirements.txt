@@ -1,5 +1,0 @@
-openai
-chromadb
-pydantic
-python-dotenv
-tiktoken
