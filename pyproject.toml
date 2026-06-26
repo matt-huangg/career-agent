@@ -9,5 +9,9 @@ dependencies = [
     "python-dotenv",
     "tiktoken",
     "langchain-text-splitters",
-    "gradio",
+    "gradio>=4.44.1",
+    "openai-agents>=0.13.6",
+    "sendgrid>=6.12.5",
+    "audioop-lts>=0.2.2 ; python_full_version >= '3.13'",
+    "setuptools>=82.0.1",
 ]

@@ -3,34 +3,22 @@
 from dotenv import load_dotenv
 import gradio as gr
 
-from agent import run_agent
-from schemas import CareerInsight
+from agent.orchestrator import stream_pipeline
 
 load_dotenv()
 
 
-def format_insight(insight: CareerInsight) -> str:
+async def chat(message: str, history: list):
     """
-    Format a CareerInsight into a readable chat response.
-    Returns a markdown string for display in the chat UI.
-    """
-    sections = [
-        f"{insight.response}",
-    ]
-    return "\n\n".join(sections)
-
-
-def chat(message: str, history: list) -> str:
-    """
-    Handle a user message and return the agent response for the chat UI.
-    Retrieves context from ChromaDB and returns a formatted CareerInsight.
+    Async generator — streams status updates and the final response to Gradio.
+    Each yield replaces the previous message in the chat UI.
     """
     _ = history  # Gradio passes chat history; may use for multi-turn later
     try:
-        insight = run_agent(message)
-        return format_insight(insight)
+        async for chunk in stream_pipeline(message):
+            yield chunk
     except Exception as exc:
-        return f"**Error**\n\n{exc}"
+        yield f"**Error**\n\n{exc}"
 
 
 def create_app() -> gr.Blocks:
@@ -43,6 +31,7 @@ def create_app() -> gr.Blocks:
             "What are my strongest skills?",
             "What roles should I target next?",
             "What gaps should I work on?",
+            "Is Python still in demand in industry today?",
         ],
     )
 
