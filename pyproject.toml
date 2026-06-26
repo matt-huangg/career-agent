@@ -8,4 +8,6 @@ dependencies = [
     "pydantic",
     "python-dotenv",
     "tiktoken",
+    "langchain-text-splitters",
+    "gradio",
 ]

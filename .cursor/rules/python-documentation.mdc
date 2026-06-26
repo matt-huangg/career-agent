@@ -1,0 +1,51 @@
+---
+description: Require docstrings and inline comments in Python code
+globs: **/*.py
+alwaysApply: true
+---
+
+# Python Documentation Standards
+
+When writing or editing Python in this project, always include docstrings and inline comments.
+
+## Docstrings
+
+- Every module, function, and class must have a docstring.
+- Function docstrings: one-line summary, then inputs/outputs or behavior when non-obvious.
+- Keep docstrings concise — explain purpose, not line-by-line implementation.
+
+```python
+# ✅ GOOD
+def chunk_documents(documents: list[dict], model: str = "text-embedding-3-small") -> list[dict]:
+    """
+    Split each document into token-bounded chunks using semantic boundaries.
+    Returns a list of dicts with keys: source, content, chunk_index.
+    """
+```
+
+## Inline Comments
+
+- Add inline comments for non-obvious logic, tradeoffs, and *why* — not what the code already says.
+- Comment key constants, external dependencies, and steps in multi-step pipelines.
+- Prefer short comments above a block or at the end of a line for field meaning.
+
+```python
+# ✅ GOOD — explains why
+# tiktoken converts text → token IDs so we can count tokens, not characters
+encoder = tiktoken.encoding_for_model(model)
+
+# length_function swaps the default character counter for a token counter
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=CHUNK_SIZE,
+    chunk_overlap=CHUNK_OVERLAP,
+    length_function=lambda text: len(encoder.encode(text)),
+)
+
+# ❌ BAD — restates the code
+# create encoder
+encoder = tiktoken.encoding_for_model(model)
+```
+
+## CLI Test Blocks
+
+- When adding pipeline modules (`loader`, `chunker`, `embedder`, etc.), include an `if __name__ == "__main__":` block for standalone testing via `uv run python -m <module>`.
