@@ -10,9 +10,10 @@ Career Agent is a personal AI assistant designed to reason about your career. It
 
 - **Personal data ingestion** — load JSON and CSV files from `data/` (including nested directories)
 - **RAG pipeline** — semantic chunking (LangChain), OpenAI embeddings, and ChromaDB for local vector search
-- **Agentic reasoning** — retrieve context and generate answers via the OpenAI SDK *(in progress)*
+- **Agentic reasoning** — retrieve context and generate structured answers via the OpenAI SDK
 - **Structured output** — typed responses validated with Pydantic (`CareerInsight`)
-- **Gradio chat UI** — interactive web chat to query the agent *(scaffolded)*
+- **Gradio chat UI** — interactive web chat powered by `run_agent()`
+- **Smart data filtering** — LinkedIn messages filtered to exclude sponsored conversations and messages older than 365 days
 
 ## Tech Stack
 
@@ -23,7 +24,7 @@ Career Agent is a personal AI assistant designed to reason about your career. It
 - **Embeddings:** OpenAI `text-embedding-3-small`
 - **Chunking:** LangChain `RecursiveCharacterTextSplitter` + tiktoken
 - **Structured output:** Pydantic models
-- **UI (planned):** Gradio
+- **UI:** Gradio
 
 ## Project Structure
 
@@ -117,13 +118,11 @@ Returns a structured `CareerInsight` with summary, strengths, gaps, experiences,
 
 ### 3. Chat — Gradio UI
 
-Launch the web chat (scaffolded — returns a placeholder until the agent is wired up):
-
 ```bash
 uv run python app.py
 ```
 
-Opens a local Gradio interface in your browser.
+Opens a local Gradio interface in your browser. Ask questions like "What are my strongest skills?" and get back a structured response with summary, strengths, gaps, experiences, and sources.
 
 ## Development
 
@@ -139,10 +138,11 @@ Use `uv run` for all commands — it runs inside the project virtualenv without 
 
 ## Roadmap
 
-- [x] Data loader (JSON + CSV)
-- [x] Semantic chunking with LangChain
+- [x] Data loader (JSON + CSV) with LinkedIn message filtering
+- [x] Semantic chunking with LangChain + tiktoken
 - [x] OpenAI embeddings + ChromaDB storage
-- [ ] Retriever
-- [ ] Agent loop + structured output
+- [x] Retriever — semantic search over ChromaDB
+- [x] Agent loop + structured output (`CareerInsight`)
+- [x] Gradio chat UI wired to `run_agent()`
 - [ ] Wire up `main.py` ingest / query commands
-- [ ] Wire Gradio chat to `run_agent()`
+- [ ] Multi-turn conversation support in Gradio
