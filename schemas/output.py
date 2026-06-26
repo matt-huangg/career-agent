@@ -7,8 +7,5 @@ class CareerInsight(BaseModel):
     """
     Structured output returned by the career agent.
     """
-    summary: str
-    strengths: list[str]
-    gaps: list[str]
-    experiences: list[str]
-    sources: list[str]
+    response: str
+  

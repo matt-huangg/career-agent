@@ -59,23 +59,3 @@ def run_agent(query: str, top_k: int = 5) -> CareerInsight:
     # Attach retrieval sources so citations reflect what was actually searched
     sources = list(dict.fromkeys(chunk["source"] for chunk in chunks))
     return insight.model_copy(update={"sources": sources})
-
-
-if __name__ == "__main__":
-    test_query = "What are my strongest skills?"
-    result = run_agent(test_query)
-
-    print(f"Query: {test_query}\n")
-    print(f"Summary:\n{result.summary}\n")
-    print("Strengths:")
-    for item in result.strengths:
-        print(f"  - {item}")
-    print("\nGaps:")
-    for item in result.gaps:
-        print(f"  - {item}")
-    print("\nExperiences:")
-    for item in result.experiences:
-        print(f"  - {item}")
-    print("\nSources:")
-    for item in result.sources:
-        print(f"  - {item}")
